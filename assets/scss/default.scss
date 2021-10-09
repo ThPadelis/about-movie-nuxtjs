@@ -7,3 +7,12 @@ body {
   background-color: #222;
   color: #eee;
 }
+
+.form-control {
+  border-color: #dee2e6;
+  &:focus {
+    border-color: #dee2e6;
+    outline: 0;
+    box-shadow: none;
+  }
+}

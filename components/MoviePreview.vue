@@ -53,12 +53,18 @@ export default {
 <style lang="scss">
 .card {
   margin-bottom: 1.5rem;
+  height: calc(100% - 1.5rem);
 
   &:hover {
     cursor: pointer;
     .card-img-overlay {
       opacity: 1;
     }
+  }
+
+  .card-img {
+    height: 100%;
+    object-fit: cover;
   }
 
   .card-img-overlay {
