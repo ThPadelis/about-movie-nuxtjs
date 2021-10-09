@@ -4,7 +4,7 @@
 
     <!-- Search -->
     <div class="container my-5">
-      <div class="row">
+      <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 col-lg-5 col-xl-4">
           <div class="input-group">
             <div class="input-group-prepend">

@@ -6,8 +6,13 @@
           <span class="text-danger font-weight-bold h5 text-uppercase"
             >Now streaming</span
           >
-          <h1>Now Streaming</h1>
-          <a href="#movies" class="btn btn-danger">View Movies</a>
+          <h1>
+            <span class="font-weight-bold">Now</span>
+            <span class="font-weight-light">Streaming</span>
+          </h1>
+          <a href="#movies" class="btn btn-danger font-weight-bold px-4"
+            >View Movies</a
+          >
         </div>
       </div>
     </div>
@@ -34,10 +39,5 @@
     height: 100%;
     background-color: rgba($color: #000000, $alpha: 0.75);
   }
-
-  //   padding: 4em;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: flex-start;
 }
 </style>
