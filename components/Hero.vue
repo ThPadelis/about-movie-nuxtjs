@@ -7,7 +7,7 @@
             >Now streaming</span
           >
           <h1>Now Streaming</h1>
-          <a href="#movies-grid" class="btn btn-danger">View Movies</a>
+          <a href="#movies" class="btn btn-danger">View Movies</a>
         </div>
       </div>
     </div>
