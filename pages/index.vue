@@ -73,6 +73,23 @@ export default {
     if (this.searchInput === '') await this.getMovies()
     else await this.searchMovies()
   },
+  head() {
+    return {
+      title: 'About Movie - Latest Streaming Movie Info',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Get all the latest streaming movies in theaters & online',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'movies, stream, streaming',
+        },
+      ],
+    }
+  },
   methods: {
     async getMovies() {
       const url = 'https://api.themoviedb.org/3/movie/now_playing'

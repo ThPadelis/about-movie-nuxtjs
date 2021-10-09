@@ -73,15 +73,26 @@
 <script>
 export default {
   data: () => ({
-    movie: null,
+    movie: {},
   }),
   async fetch() {
     await this.getMovie()
   },
-  fetchDelay: 500,
+  head() {
+    return {
+      title: `${this.title} - About Movie`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.overview,
+        },
+      ],
+    }
+  },
   computed: {
     title() {
-      return this.movie.original_title
+      return this.movie.original_title || this.movie.title
     },
     imgSrc() {
       return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
