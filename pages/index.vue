@@ -29,29 +29,36 @@
       </div>
     </div>
 
+    <!-- Loading spinner -->
+    <template v-if="$fetchState.pending">
+      <Loader />
+    </template>
+
     <!-- Movies grid -->
-    <div class="container mb-5">
-      <div id="movies" class="row">
-        <template v-if="searchInput === ''">
-          <div
-            v-for="m in movies"
-            :key="m.id"
-            class="col-sm-12 col-md-4 col-lg-3 col-xl-3"
-          >
-            <MoviePreview :movie="m" />
-          </div>
-        </template>
-        <template v-else>
-          <div
-            v-for="m in searchedMovies"
-            :key="m.id"
-            class="col-sm-12 col-md-4 col-lg-3 col-xl-3"
-          >
-            <MoviePreview :movie="m" />
-          </div>
-        </template>
+    <template v-else>
+      <div class="container mb-5">
+        <div id="movies" class="row">
+          <template v-if="searchInput === ''">
+            <div
+              v-for="m in movies"
+              :key="m.id"
+              class="col-sm-12 col-md-4 col-lg-3 col-xl-3"
+            >
+              <MoviePreview :movie="m" />
+            </div>
+          </template>
+          <template v-else>
+            <div
+              v-for="m in searchedMovies"
+              :key="m.id"
+              class="col-sm-12 col-md-4 col-lg-3 col-xl-3"
+            >
+              <MoviePreview :movie="m" />
+            </div>
+          </template>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -79,6 +86,7 @@ export default {
       this.movies = data.results
     },
     async searchMovies() {
+      if (this.searchInput.trim().length === 0) return
       const url = 'https://api.themoviedb.org/3/search/movie'
       const _params = {
         api_key: process.env.apiKey,
