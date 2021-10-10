@@ -10,9 +10,9 @@
             <span class="font-weight-bold">Now</span>
             <span class="font-weight-light">Streaming</span>
           </h1>
-          <a href="#movies" class="btn btn-danger font-weight-bold px-4"
-            >View Movies</a
-          >
+          <a href="#movies" class="btn btn-danger font-weight-bold px-4">
+            View Movies
+          </a>
         </div>
       </div>
     </div>

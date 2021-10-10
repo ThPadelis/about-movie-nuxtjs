@@ -95,7 +95,9 @@ export default {
       return this.movie.original_title || this.movie.title
     },
     imgSrc() {
-      return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+      return this.movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+        : require('@/assets/img/img_1.jpg') 
     },
     imgAlt() {
       return this.movie.original_title || this.movie.title

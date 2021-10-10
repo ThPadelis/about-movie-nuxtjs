@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <Hero />
 
     <!-- Search -->
@@ -59,6 +59,13 @@
         </div>
       </div>
     </template>
+
+    <!-- Go to top -->
+    <template v-if="scrollTop > 20">
+      <button class="go btn btn-dark" @click="goTop">
+        <span class="fa fa-arrow-alt-circle-up"></span>
+      </button>
+    </template>
   </div>
 </template>
 
@@ -68,6 +75,8 @@ export default {
     movies: [],
     searchedMovies: [],
     searchInput: '',
+    page: 1,
+    scrollTop: 0,
   }),
   async fetch() {
     if (this.searchInput === '') await this.getMovies()
@@ -90,17 +99,21 @@ export default {
       ],
     }
   },
+  mounted() {
+    this.getNextMovies()
+  },
   methods: {
     async getMovies() {
       const url = 'https://api.themoviedb.org/3/movie/now_playing'
       const _params = {
         api_key: process.env.apiKey,
         language: 'en-US',
-        page: 1,
+        page: this.page,
       }
       const params = new URLSearchParams(_params)
       const { data } = await this.$axios.get(url, { params })
       this.movies = data.results
+      this.page++
     },
     async searchMovies() {
       if (this.searchInput.trim().length === 0) return
@@ -117,6 +130,45 @@ export default {
       this.searchInput = ''
       this.searchedMovies = []
     },
+    getScrollPercent() {
+      const h = document.documentElement
+      const b = document.body
+      const st = 'scrollTop'
+      const sh = 'scrollHeight'
+      this.scrollTop =
+        ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100
+    },
+    getNextMovies() {
+      window.onscroll = async () => {
+        this.getScrollPercent()
+
+        const bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight
+        if (bottomOfWindow) {
+          const url = 'https://api.themoviedb.org/3/movie/now_playing'
+          const _params = {
+            api_key: process.env.apiKey,
+            language: 'en-US',
+            page: this.page++,
+          }
+          const params = new URLSearchParams(_params)
+          const { data } = await this.$axios.get(url, { params })
+          this.movies.push(...data.results)
+        }
+      }
+    },
+    goTop() {
+      window.scroll({ top: 0, behavior: 'smooth' })
+    },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.go {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+}
+</style>
