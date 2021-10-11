@@ -34,6 +34,10 @@
       <Loader />
     </template>
 
+    <template v-else-if="$fetchState.error">
+      <pre class="text-white">{{ $fetchState.error.message }}</pre>
+    </template>
+
     <!-- Movies grid -->
     <template v-else>
       <div class="container mb-5">
@@ -76,6 +80,7 @@ export default {
     searchedMovies: [],
     searchInput: '',
     page: 1,
+    searchedMoviesPage: 1,
     scrollTop: 0,
   }),
   async fetch() {
@@ -100,35 +105,51 @@ export default {
     }
   },
   mounted() {
-    this.getNextMovies()
+    this.onReachBottom()
   },
   methods: {
     async getMovies() {
-      const url = 'https://api.themoviedb.org/3/movie/now_playing'
-      const _params = {
-        api_key: process.env.apiKey,
-        language: 'en-US',
-        page: this.page,
+      try {
+        const url = 'https://api.themoviedb.org/3/movie/now_playing'
+        const _params = {
+          api_key: process.env.apiKey,
+          language: 'en-US',
+          page: this.page,
+        }
+        const params = new URLSearchParams(_params)
+        const { data } = await this.$axios.get(url, { params })
+        data.results.forEach((movie) => {
+          this.movies.push(movie)
+        })
+        this.page++
+      } catch (error) {
+        this.movies = []
+        this.page = 1
       }
-      const params = new URLSearchParams(_params)
-      const { data } = await this.$axios.get(url, { params })
-      this.movies = data.results
-      this.page++
     },
     async searchMovies() {
       if (this.searchInput.trim().length === 0) return
-      const url = 'https://api.themoviedb.org/3/search/movie'
-      const _params = {
-        api_key: process.env.apiKey,
-        query: this.searchInput.trim(),
+      try {
+        const url = 'https://api.themoviedb.org/3/search/movie'
+        const _params = {
+          api_key: process.env.apiKey,
+          query: this.searchInput.trim(),
+          page: this.searchedMoviesPage,
+        }
+        const params = new URLSearchParams(_params)
+        const { data } = await this.$axios.get(url, { params })
+        data.results.forEach((movie) => {
+          this.searchedMovies.push(movie)
+        })
+        this.searchedMoviesPage++
+      } catch (error) {
+        this.searchedMovies = []
       }
-      const params = new URLSearchParams(_params)
-      const { data } = await this.$axios.get(url, { params })
-      this.searchedMovies = data.results
     },
     clearSearch() {
       this.searchInput = ''
       this.searchedMovies = []
+      this.searchedMoviesPage = 1
     },
     getScrollPercent() {
       const h = document.documentElement
@@ -138,7 +159,7 @@ export default {
       this.scrollTop =
         ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100
     },
-    getNextMovies() {
+    onReachBottom() {
       window.onscroll = async () => {
         this.getScrollPercent()
 
@@ -146,15 +167,8 @@ export default {
           document.documentElement.scrollTop + window.innerHeight ===
           document.documentElement.offsetHeight
         if (bottomOfWindow) {
-          const url = 'https://api.themoviedb.org/3/movie/now_playing'
-          const _params = {
-            api_key: process.env.apiKey,
-            language: 'en-US',
-            page: this.page++,
-          }
-          const params = new URLSearchParams(_params)
-          const { data } = await this.$axios.get(url, { params })
-          this.movies.push(...data.results)
+          if (this.searchInput === '') await this.getMovies()
+          else await this.searchMovies()
         }
       }
     },

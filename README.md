@@ -1,69 +1,67 @@
-# about-movie-nuxtjs
+<h1 style="text-align: center;">Welcome to about-movie-nuxtjs 👋</h1>
 
-## Build Setup
+> Build with NuxtJs based on themoviedb api. About movie is a IMDB-like website that created for learning purposes
 
-```bash
-# install dependencies
-$ npm install
+<div style="display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr; gap: 0px 20px; grid-auto-flow: row; grid-template-areas: '. .'; align-items: center">
+  <a href="https://res.cloudinary.com/thpadelis/image/upload/v1633953384/About%20Movie%20NuxtJS/macbookAir_home_d6ulpj.png" target="_blank"><img src="https://res.cloudinary.com/thpadelis/image/upload/v1633953384/About%20Movie%20NuxtJS/macbookAir_home_d6ulpj.png" alt="Home page"/>
+<a href="https://res.cloudinary.com/thpadelis/image/upload/v1633953383/About%20Movie%20NuxtJS/iPhone_home_cj83xe.png" target="_blank"><img src="https://res.cloudinary.com/thpadelis/image/upload/v1633953383/About%20Movie%20NuxtJS/iPhone_home_cj83xe.png" alt="Home page"/></a>
+</div>
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+### 🏠 [Homepage](https://github.com/ThPadelis/about-movie-nuxtjs)
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+### ✨ [Demo](https://about-movie.herokuapp.com/)
 
-# generate static project
-$ npm run generate
-```
+## Getting started
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+### Prerequisites
 
-## Special Directories
+- npm
+  ```sh
+  npm install npm@latest -g
+  ```
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+### Installation
 
-### `assets`
+1. Get a free API Key at [https://www.themoviedb.org/](https://www.themoviedb.org/)
+2. Clone the repo
+   ```sh
+   git clone https://github.com/ThPadelis/about-movie-nuxtjs.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Create and edit `.env` file
+   ```sh
+   cp .env.example .env
+   ```
+5. Start coding
+    ```sh
+    npm run dev
+    ```
+6. Build for production and launch server
+    ```sh
+    npm run build
+    npm run start
+    ```
+7. Generate static project
+    ```sh
+    npm run generate
+    ```
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+## 🤝 Contributing
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-### `components`
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+## Show your support
 
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+Give a ⭐️ if this project helped you!
