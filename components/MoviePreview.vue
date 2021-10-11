@@ -55,6 +55,7 @@ export default {
 <style lang="scss">
 .card {
   margin-bottom: 1.5rem;
+  min-height: 350px;
   height: calc(100% - 1.5rem);
 
   &:hover {

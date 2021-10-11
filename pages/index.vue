@@ -51,7 +51,7 @@
     <template v-else>
       <div class="container mb-5">
         <div id="movies" class="row">
-          <template v-if="!!searchedMovies">
+          <template v-if="!hasSearchedMovies">
             <div
               v-for="m in movies"
               :key="m.id"
@@ -114,6 +114,13 @@ export default {
       ],
     }
   },
+  computed: {
+    hasSearchedMovies() {
+      return (
+        this.searchInput.trim().length > 0 && this.searchedMovies.length > 0
+      )
+    },
+  },
   mounted() {
     this.onReachBottom()
   },
@@ -152,9 +159,7 @@ export default {
         data.results.forEach((movie) => {
           this.searchedMovies.push(movie)
         })
-        this.searchedMoviesPage++
-
-        if (data.results.length === 0) {
+        if (data.results.length === 0 && this.searchedMoviesPage === 1) {
           this.$bvToast.toast("We couldn't match any movie", {
             title: 'Search result',
             variant: 'info',
@@ -162,8 +167,10 @@ export default {
             autoHideDelay: 2500,
           })
         }
+        this.searchedMoviesPage++
       } catch (error) {
         this.searchedMovies = []
+        this.searchedMoviesPage = 1
       }
     },
     clearSearch() {
