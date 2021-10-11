@@ -5,24 +5,33 @@
     <!-- Search -->
     <div class="container my-5">
       <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 col-lg-5 col-xl-4">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span id="basic-addon1" class="input-group-text">
-                <i class="fa fa-search"></i>
-              </span>
-            </div>
+        <div class="col-sm-12 col-md-10 col-lg-5 col-xl-5">
+          <div class="input-group custom-search">
             <input
-              v-model.lazy="searchInput"
+              v-model="searchInput"
               type="text"
               class="form-control"
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="basic-addon1"
+              placeholder="Search..."
+              aria-label="Search..."
+              aria-describedby="basic-addon2"
               @keyup.enter="searchMovies"
             />
             <div class="input-group-append">
-              <button class="btn btn-dark" @click="clearSearch">Clear</button>
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                @click="searchMovies"
+              >
+                <span class="fa fa-search"></span>
+              </button>
+              <button
+                v-if="searchInput.trim().length !== 0"
+                class="btn btn-outline-secondary"
+                type="button"
+                @click="clearSearch"
+              >
+                <span class="fa fa-times"></span>
+              </button>
             </div>
           </div>
         </div>
@@ -42,7 +51,7 @@
     <template v-else>
       <div class="container mb-5">
         <div id="movies" class="row">
-          <template v-if="searchInput === ''">
+          <template v-if="!!searchedMovies">
             <div
               v-for="m in movies"
               :key="m.id"
@@ -84,7 +93,8 @@ export default {
     scrollTop: 0,
   }),
   async fetch() {
-    if (this.searchInput === '') await this.getMovies()
+    const isEmpty = this.searchInput.trim().length === 0
+    if (isEmpty) await this.getMovies()
     else await this.searchMovies()
   },
   head() {
@@ -128,7 +138,8 @@ export default {
       }
     },
     async searchMovies() {
-      if (this.searchInput.trim().length === 0) return
+      const isEmpty = this.searchInput.trim().length === 0
+      if (isEmpty) return
       try {
         const url = 'https://api.themoviedb.org/3/search/movie'
         const _params = {
@@ -142,6 +153,15 @@ export default {
           this.searchedMovies.push(movie)
         })
         this.searchedMoviesPage++
+
+        if (data.results.length === 0) {
+          this.$bvToast.toast("We couldn't match any movie", {
+            title: 'Search result',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 2500,
+          })
+        }
       } catch (error) {
         this.searchedMovies = []
       }
@@ -161,13 +181,14 @@ export default {
     },
     onReachBottom() {
       window.onscroll = async () => {
+        const isEmpty = this.searchInput.trim().length === 0
         this.getScrollPercent()
 
         const bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
           document.documentElement.offsetHeight
         if (bottomOfWindow) {
-          if (this.searchInput === '') await this.getMovies()
+          if (isEmpty) await this.getMovies()
           else await this.searchMovies()
         }
       }
@@ -184,5 +205,69 @@ export default {
   position: fixed;
   bottom: 2em;
   right: 2em;
+}
+
+.custom-search {
+  width: 100%;
+  input.form-control {
+    background: darken($color: $gray-900, $amount: 2);
+    border-color: darken($color: $gray-900, $amount: 5);
+    border-right: 0;
+    border-width: 2px;
+    font-weight: 500;
+
+    &:focus,
+    &:hover {
+      color: $gray-100;
+
+      &::placeholder {
+        color: $gray-500;
+      }
+    }
+
+    &::placeholder {
+      color: $gray-600;
+    }
+  }
+
+  button.btn-outline-secondary {
+    border: 0;
+    background-color: darken($color: $gray-900, $amount: 5);
+    color: $gray-500;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 0.9em;
+
+    &:first-of-type {
+      border-left: 0;
+      border-top: solid 2px transparent;
+      border-bottom: solid 2px transparent;
+    }
+    &:last-of-type {
+      border-top: solid 2px transparent;
+      border-right: solid 2px transparent;
+      border-bottom: solid 2px transparent;
+    }
+
+    &:hover {
+      &:first-of-type {
+        color: $gray-100;
+      }
+      &:last-of-type {
+        color: $danger;
+      }
+      &:only-child {
+        color: $gray-100;
+      }
+    }
+
+    &:focus,
+    &:active,
+    &:hover {
+      box-shadow: none !important;
+      background-color: darken($color: $gray-900, $amount: 2) !important;
+      border-color: darken($color: $gray-900, $amount: 5);
+    }
+  }
 }
 </style>
